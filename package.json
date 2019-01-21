@@ -1,0 +1,36 @@
+{
+  "name": "babel-plugin-proxy-import",
+  "version": "1.0.0",
+  "description": "Transform any member style `import { foo as bar } from 'module'` to default direct style `import bar from '{any}/foo'` with ease to enable tree shaking with any module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dharmawankenny/babel-plugin-proxy-import.git"
+  },
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "import",
+    "tree-shaking"
+  ],
+  "author": "Kenny Reida Dharmawan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dharmawankenny/babel-plugin-proxy-import/issues"
+  },
+  "homepage": "https://github.com/dharmawankenny/babel-plugin-proxy-import#readme",
+  "dependencies": {
+    "is-valid-path": "^0.1.1",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.findkey": "^4.6.0",
+    "lodash.kebabcase": "^4.1.1",
+    "lodash.snakecase": "^4.1.1"
+  },
+  "devDependencies": {
+    "babel-plugin-tester": "^5.5.2",
+    "jest": "^23.6.0"
+  }
+}
