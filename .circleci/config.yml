@@ -29,7 +29,9 @@ jobs:
 
     steps:
       - checkout
-      - npm install -g codecov
+      - run:
+          name: install codecov
+          command: npm install -g codecov
       - run:
           name: Test
           command: npm test
