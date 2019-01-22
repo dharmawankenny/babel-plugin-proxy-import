@@ -38,6 +38,8 @@
     "lint-staged": "^8.1.0"
   },
   "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
     "coverageThreshold": {
       "global": {
         "branches": 90,
