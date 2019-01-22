@@ -31,7 +31,7 @@ jobs:
       - checkout
       - run:
           name: install codecov
-          command: npm install -g codecov
+          command: sudo npm install -g codecov
       - run:
           name: Test
           command: npm test
