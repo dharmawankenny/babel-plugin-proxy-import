@@ -13,7 +13,9 @@ But its not just performance, this library is made to improve the developer expe
 
 ## Setup
 
-`npm install --save-dev babel-plugin-proxy-import`
+```
+  npm install --save-dev babel-plugin-proxy-import
+ ```
 
 Simply install this package as a devDependency to your babel app and use it as a plugin on your babel configuration.
 
