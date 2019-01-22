@@ -48,9 +48,12 @@ jobs:
       - run:
           name: Test
           command: npm test
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
       - run:
           name: Generate code coverage
           command: codecov
+
       - store_artifacts:
           path: coverage
           prefix: coverage
