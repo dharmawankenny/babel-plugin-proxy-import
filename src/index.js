@@ -9,8 +9,11 @@ module.exports = function(babel) {
 
   return {
     name: 'babel-plugin-proxy-import',
+    pre(state) {
+      this.visited = {};
+    },
     visitor: {
-      ImportDeclaration: function(path, state) {
+      ImportDeclaration(path, state) {
         var sourceModule = path.node.source.value;
         var rules = state.opts.rules;
         var filename = state.file.opts.filename;
@@ -24,7 +27,8 @@ module.exports = function(babel) {
             var memberImportDeclarations = path.node.specifiers.filter(function(specifier) { return specifier.type === 'ImportSpecifier'});
 
             if (fullImportDeclarations.length > 0) {
-              if (rule.blockFullImport) {
+              // check if a full import happens and is not the newly created path from before
+              if (rule.blockFullImport && !this.visited[sourceModule]) {
                 err('Importing entire module of ' + sourceModule + ' is not allowed due to blockFullImport rule for this module');
               }
 
@@ -37,8 +41,9 @@ module.exports = function(babel) {
               newPaths.push(t.importDeclaration(
                 [t.importDefaultSpecifier(t.identifier(memberImportDeclaration.local.name))],
                 t.stringLiteral(transformMemberImportTarget(sourceModule, rule, memberImportDeclaration.imported.name))
-              ))
-            });
+              ));
+              this.visited[transformMemberImportTarget(sourceModule, rule, memberImportDeclaration.imported.name)] = true;
+            }, this);
 
             if (newPaths.length > 0) {
               path.replaceWithMultiple(newPaths);

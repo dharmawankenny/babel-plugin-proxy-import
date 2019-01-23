@@ -14,9 +14,9 @@ pluginTester({
   },
   tests: {
     // test behavior with unrelated code
-    'leave other module import as is': 'import { some } from "another";',
-    'leave full import as is': 'import some from "@module";',
-    'leave full alias import as is': 'import * as some from "@module";',
+    'should leave other module import as is': 'import { some } from "another";',
+    'should leave full import as is': 'import some from "@module";',
+    'should leave full alias import as is': 'import * as some from "@module";',
 
     // test bad rules
     'should check imported path does not have a closing /': {
@@ -30,7 +30,7 @@ pluginTester({
       code: 'import full from "@module/";',
       error: true,
     },
-    'should check if rule is an array': {
+    'should check if rules is an array': {
       pluginOptions: {
         rules: {
           module: '>this.is.not.a.valid path',
@@ -99,7 +99,7 @@ pluginTester({
     },
 
     // test transformation cases
-    'correctly transform member style import to default import targeting a directory with index.js': {
+    'should correctly transform member style import to default import targeting a directory with index.js': {
       pluginOptions: {
         rules: [
           {
@@ -110,15 +110,15 @@ pluginTester({
       code: 'import { foo } from "@module";',
       output: 'import foo from "@module/foo";',
     },
-    'correctly transform member style import to default import': {
+    'should correctly transform member style import to default import': {
       code: 'import { foo } from "@module";',
       output: 'import foo from "@module/foo/foo";',
     },
-    'correctly preserve member style alias when transforming to default import': {
+    'should correctly preserve member style alias when transforming to default import': {
       code: 'import { foo as bar } from "@module";',
       output: 'import bar from "@module/foo/foo";',
     },
-    'correctly transform multiple member style import to multiple default import': {
+    'should correctly transform multiple member style import to multiple default import': {
       code: `
         import {
           foo,
@@ -130,7 +130,7 @@ pluginTester({
         import lorem from "@module/lorem/lorem";
       `,
     },
-    'correctly preserve all member style alias when transforming to multiple default import': {
+    'should correctly preserve all member style alias when transforming to multiple default import': {
       code: `
         import {
           foo as bar,
@@ -142,7 +142,7 @@ pluginTester({
         import ipsum from "@module/lorem/lorem";
       `,
     },
-    'correctly transform escape hatch ___ to target specific file of a submodule': {
+    'should correctly transform escape hatch ___ to target specific file of a submodule': {
       code: `
         import {
           foo___bar as bar,
@@ -154,7 +154,7 @@ pluginTester({
         import ipsum from "@module/loremIpsum/loremIpsum";
       `,
     },
-    'correctly block full import when configured to do so': {
+    'should correctly block full import when configured to do so': {
       pluginOptions: {
         rules: [
           {
@@ -166,7 +166,22 @@ pluginTester({
       code: 'import full from "@module";',
       error: true,
     },
-    'correctly transform multiple member style import and full import to multiple default import when allowed': {
+    'should correctly skip generated full import code when configured to block full import': {
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            blockFullImport: true,
+          },
+        ],
+      },
+      code: 'import { fully, something } from "@module";',
+      output: `
+        import fully from "@module/fully";
+        import something from "@module/something";
+      `,
+    },
+    'should correctly transform multiple member style import and full import to multiple default import when allowed': {
       code: `
         import module, {
           foo,
@@ -179,7 +194,7 @@ pluginTester({
         import lorem from "@module/lorem/lorem";
       `,
     },
-    'correctly transform subdirectory targetting': {
+    'should correctly transform subdirectory targetting': {
       code: `
         import module, {
           foo,
@@ -192,7 +207,7 @@ pluginTester({
         import lorem from "@module/some/subdirectory/lorem/lorem";
       `,
     },
-    'correctly transform target module to proxy module as configured': {
+    'should correctly transform target module to proxy module as configured': {
       pluginOptions: {
         rules: [
           {
@@ -214,7 +229,7 @@ pluginTester({
         import lorem from "@module/lorem/lorem.container";
       `,
     },
-    'correctly transform target module case to camel case by default': {
+    'should correctly transform target module case to camel case by default': {
       pluginOptions: {
         rules: [
           {
@@ -234,7 +249,7 @@ pluginTester({
         import lorem_ipsum from "@module/loremIpsum/loremIpsum";
       `,
     },
-    'correctly transform target module case to camel case as configured': {
+    'should correctly transform target module case to camel case as configured': {
       pluginOptions: {
         rules: [
           {
@@ -255,7 +270,7 @@ pluginTester({
         import lorem_ipsum from "@module/loremIpsum/loremIpsum";
       `,
     },
-    'correctly transform target module case to snake case as configured': {
+    'should correctly transform target module case to snake case as configured': {
       pluginOptions: {
         rules: [
           {
@@ -276,7 +291,7 @@ pluginTester({
         import loremIpsum from "@module/lorem_ipsum/lorem_ipsum";
       `,
     },
-    'correctly transform target module case to kebab case as configured': {
+    'should correctly transform target module case to kebab case as configured': {
       pluginOptions: {
         rules: [
           {
