@@ -4,89 +4,109 @@ var plugin = require('../src/index.js');
 pluginTester({
   plugin,
   pluginName: 'babel-plugin-proxy-import',
-  pluginOptions: [
-    {
-      module: '@module',
-      noIndex: true,
-    },
-  ],
+  pluginOptions: {
+    rules: [
+      {
+        module: '@module',
+        noIndex: true,
+      },
+    ],
+  },
   tests: {
     // test behavior with unrelated code
     'leave other module import as is': 'import { some } from "another";',
     'leave full import as is': 'import some from "@module";',
     'leave full alias import as is': 'import * as some from "@module";',
 
-    // test bad options
+    // test bad rules
     'should check imported path does not have a closing /': {
       pluginOptions: {
-        module: '@module',
+        rules: [
+          {
+            module: '@module',
+          },
+        ],
       },
       code: 'import full from "@module/";',
       error: true,
     },
-    'should check if option is an array': {
+    'should check if rule is an array': {
       pluginOptions: {
-        module: '>this.is.not.a.valid path',
+        rules: {
+          module: '>this.is.not.a.valid path',
+        },
       },
       code: 'import full from "@module";',
       error: true,
     },
-    'should check if module key exist in option': {
-      pluginOptions: [
-        {
-          bad: 'option',
-        },
-      ],
+    'should check if module key exist in rule': {
+      pluginOptions: {
+        rules: [
+          {
+            bad: 'rule',
+          },
+        ],
+      },
       code: 'import full from "@module";',
       error: true,
     },
     'should check if module path is not valid': {
-      pluginOptions: [
-        {
-          module: '>this.is.not.a.valid path',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '>this.is.not.a.valid path',
+          },
+        ],
+      },
       code: 'import full from "@module";',
       error: true,
     },
     'should check if proxy contains ${target} string': {
-      pluginOptions: [
-        {
-          module: '@module',
-          proxy: '@module/not-a-valid-proxy',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            proxy: '@module/not-a-valid-proxy',
+          },
+        ],
+      },
       code: 'import full from "@module";',
       error: true,
     },
     'should check if proxy ${target} string doesnt have / before it': {
-      pluginOptions: [
-        {
-          module: '@module',
-          proxy: '@module/${target}',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            proxy: '@module/${target}',
+          },
+        ],
+      },
       code: 'import full from "@module";',
       error: true,
     },
     'should check if targetCase is valid when provided': {
-      pluginOptions: [
-        {
-          module: '@module',
-          targetCase: 'not-a-valid-case',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            targetCase: 'not-a-valid-case',
+          },
+        ],
+      },
       code: 'import full from "@module";',
       error: true,
     },
 
     // test transformation cases
     'correctly transform member style import to default import targeting a directory with index.js': {
-      pluginOptions: [
-        {
-          module: '@module',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+          },
+        ],
+      },
       code: 'import { foo } from "@module";',
       output: 'import foo from "@module/foo";',
     },
@@ -135,12 +155,14 @@ pluginTester({
       `,
     },
     'correctly block full import when configured to do so': {
-      pluginOptions: [
-        {
-          module: '@module',
-          blockFullImport: true,
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            blockFullImport: true,
+          },
+        ],
+      },
       code: 'import full from "@module";',
       error: true,
     },
@@ -171,13 +193,15 @@ pluginTester({
       `,
     },
     'correctly transform target module to proxy module as configured': {
-      pluginOptions: [
-        {
-          module: '@module',
-          proxy: '@module${target}.container',
-          noIndex: true,
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            proxy: '@module${target}.container',
+            noIndex: true,
+          },
+        ],
+      },
       code: `
         import module, {
           foo,
@@ -191,12 +215,14 @@ pluginTester({
       `,
     },
     'correctly transform target module case to camel case by default': {
-      pluginOptions: [
-        {
-          module: '@module',
-          noIndex: true,
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            noIndex: true,
+          },
+        ],
+      },
       code: `
         import {
           foo_bar,
@@ -209,13 +235,15 @@ pluginTester({
       `,
     },
     'correctly transform target module case to camel case as configured': {
-      pluginOptions: [
-        {
-          module: '@module',
-          noIndex: true,
-          targetCase: 'camel',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            noIndex: true,
+            targetCase: 'camel',
+          },
+        ],
+      },
       code: `
         import {
           foo_bar,
@@ -228,13 +256,15 @@ pluginTester({
       `,
     },
     'correctly transform target module case to snake case as configured': {
-      pluginOptions: [
-        {
-          module: '@module',
-          noIndex: true,
-          targetCase: 'snake',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            noIndex: true,
+            targetCase: 'snake',
+          },
+        ],
+      },
       code: `
         import {
           fooBar,
@@ -247,13 +277,15 @@ pluginTester({
       `,
     },
     'correctly transform target module case to kebab case as configured': {
-      pluginOptions: [
-        {
-          module: '@module',
-          noIndex: true,
-          targetCase: 'kebab',
-        },
-      ],
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            noIndex: true,
+            targetCase: 'kebab',
+          },
+        ],
+      },
       code: `
         import {
           foo_bar,

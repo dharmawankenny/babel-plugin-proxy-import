@@ -28,11 +28,13 @@ Pass down an option when using this plugin on your babel configuration as such:
       ...
       [
         'babel-plugin-proxy-import',
-        [
-          {
-            ...proxyConfiguration
-          },
-        ]
+        {
+          rules: [
+            {
+              ...proxyConfiguration
+            },
+          ],
+        }
       ],
       ...
     ],

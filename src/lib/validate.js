@@ -1,40 +1,40 @@
 var isValidPath = require('is-valid-path');
 var err = require('./throwError.js');
 
-module.exports = function(sourceModule, options) {
+module.exports = function(sourceModule, rules) {
   if (sourceModule[sourceModule.length - 1] === '/') {
     err('Invalid source for ' + sourceModule + ', unnecessary closing "/"');
   }
 
-  if (!Array.isArray(options)) {
-    err('Options must be an array');
+  if (!Array.isArray(rules)) {
+    err('rules must be an array');
   }
 
-  options.forEach(function(option) {
-    if (!isValidPath(option.module)) {
-      err('Invalid path for targetModule ' + option.module);
+  rules.forEach(function(rule) {
+    if (!isValidPath(rule.module)) {
+      err('Invalid path for targetModule ' + rule.module);
     }
 
     if (
-      !!option.proxy &&
+      !!rule.proxy &&
       !(
-        typeof option.proxy === 'string' &&
-        option.proxy.includes('${target}') &&
-        !option.proxy.includes('/${target}')
+        typeof rule.proxy === 'string' &&
+        rule.proxy.includes('${target}') &&
+        !rule.proxy.includes('/${target}')
       )
     ) {
-      err('Invalid option for targetModule ' + option.module + ', proxy must be string and contains ${resolveModule}, will use targetModule by default');
+      err('Invalid rule for targetModule ' + rule.module + ', proxy must be string and contains ${resolveModule}, will use targetModule by default');
     }
 
     if (
-      !!option.targetCase &&
+      !!rule.targetCase &&
       !(
-        option.targetCase === 'camel' ||
-        option.targetCase === 'snake' ||
-        option.targetCase === 'kebab'
+        rule.targetCase === 'camel' ||
+        rule.targetCase === 'snake' ||
+        rule.targetCase === 'kebab'
       )
     ) {
-      err('Invalid option for targetModule ' + option.module + ', targetCase should be either "camel", "snake", "kebab" or null, will use "camel" by default');
+      err('Invalid rule for targetModule ' + rule.module + ', targetCase should be either "camel", "snake", "kebab" or null, will use "camel" by default');
     }
   });
 

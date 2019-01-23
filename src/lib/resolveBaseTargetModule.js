@@ -1,8 +1,8 @@
-module.exports = function(sourceModule, option, target) {
-  if (!!option.proxy) {
-    return option.proxy.replace(
+module.exports = function(sourceModule, rule, target) {
+  if (!!rule.proxy) {
+    return rule.proxy.replace(
       '${target}',
-      sourceModule.replace(option.module, target)
+      sourceModule.replace(rule.module, target)
     );
   }
 

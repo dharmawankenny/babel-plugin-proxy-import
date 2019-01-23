@@ -1,6 +1,6 @@
 var err = require('./lib/throwError.js');
 var validate = require('./lib/validate.js');
-var findOptionForSourceModule = require('./lib/findOptionForSourceModule.js');
+var findRuleForSourceModule = require('./lib/findRuleForSourceModule.js');
 var resolveBaseTargetModule = require('./lib/resolveBaseTargetModule.js');
 var transformMemberImportTarget = require('./lib/transformMemberImportTarget.js');
 
@@ -12,31 +12,31 @@ module.exports = function(babel) {
     visitor: {
       ImportDeclaration: function(path, state) {
         var sourceModule = path.node.source.value;
-        var options = state.opts;
+        var rules = state.opts.rules;
         var filename = state.file.opts.filename;
 
-        if (validate(sourceModule, options)) {
-          var option = findOptionForSourceModule(sourceModule, options, filename);
+        if (validate(sourceModule, rules)) {
+          var rule = findRuleForSourceModule(sourceModule, rules, filename);
 
-          if (!!option) {
+          if (!!rule) {
             var newPaths = [];
             var fullImportDeclarations = path.node.specifiers.filter(function(specifier) { return specifier.type !== 'ImportSpecifier'});
             var memberImportDeclarations = path.node.specifiers.filter(function(specifier) { return specifier.type === 'ImportSpecifier'});
 
             if (fullImportDeclarations.length > 0) {
-              if (option.blockFullImport) {
-                err('Importing entire module of ' + sourceModule + ' is not allowed due to blockFullImport option for this module');
+              if (rule.blockFullImport) {
+                err('Importing entire module of ' + sourceModule + ' is not allowed due to blockFullImport rule for this module');
               }
 
               if (memberImportDeclarations.length > 0) {
-                newPaths.push(t.importDeclaration(fullImportDeclarations, t.stringLiteral(resolveBaseTargetModule(sourceModule, option, ''))))
+                newPaths.push(t.importDeclaration(fullImportDeclarations, t.stringLiteral(resolveBaseTargetModule(sourceModule, rule, ''))))
               }
             }
 
             memberImportDeclarations.forEach(function(memberImportDeclaration) {
               newPaths.push(t.importDeclaration(
                 [t.importDefaultSpecifier(t.identifier(memberImportDeclaration.local.name))],
-                t.stringLiteral(transformMemberImportTarget(sourceModule, option, memberImportDeclaration.imported.name))
+                t.stringLiteral(transformMemberImportTarget(sourceModule, rule, memberImportDeclaration.imported.name))
               ))
             });
 
