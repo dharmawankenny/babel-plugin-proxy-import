@@ -1,3 +1,4 @@
+var upperFirst = require('lodash.upperfirst');
 var toCamel = require('lodash.camelcase');
 var toSnake = require('lodash.snakecase');
 var toKebab = require('lodash.kebabcase');
@@ -9,6 +10,9 @@ module.exports = function(targetCase) {
     switch (targetCase) {
       case 'camel':
         result = toCamel(name);
+        break;
+      case 'react':
+        result = upperFirst(toCamel(name));
         break;
       case 'snake':
         result = toSnake(name);

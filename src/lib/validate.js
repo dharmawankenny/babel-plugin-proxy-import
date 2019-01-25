@@ -30,6 +30,7 @@ module.exports = function(sourceModule, rules) {
       !!rule.targetCase &&
       !(
         rule.targetCase === 'camel' ||
+        rule.targetCase === 'react' ||
         rule.targetCase === 'snake' ||
         rule.targetCase === 'kebab'
       )

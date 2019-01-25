@@ -270,6 +270,31 @@ pluginTester({
         import lorem_ipsum from "@module/loremIpsum/loremIpsum";
       `,
     },
+    'should correctly transform target module case to React component case convention as configured': {
+      pluginOptions: {
+        rules: [
+          {
+            module: '@module',
+            noIndex: true,
+            targetCase: 'react',
+          },
+        ],
+      },
+      code: `
+        import {
+          fubar,
+          SomeComp,
+          foo_bar as FooBar,
+          lorem_ipsum,
+        } from "@module";
+      `,
+      output: `
+        import fubar from "@module/Fubar/Fubar";
+        import SomeComp from "@module/SomeComp/SomeComp";
+        import FooBar from "@module/FooBar/FooBar";
+        import lorem_ipsum from "@module/LoremIpsum/LoremIpsum";
+      `,
+    },
     'should correctly transform target module case to snake case as configured': {
       pluginOptions: {
         rules: [
