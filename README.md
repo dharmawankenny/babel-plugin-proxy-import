@@ -3,7 +3,7 @@
 ![](https://img.shields.io/circleci/project/github/dharmawankenny/babel-plugin-proxy-import/master.svg?logo=circleci&logoColor=ffffff) ![](https://img.shields.io/codecov/c/gh/dharmawankenny/babel-plugin-proxy-import.svg?logo=codecov&logoColor=ffffff) ![](https://img.shields.io/david/dharmawankenny/babel-plugin-proxy-import.svg?logo=node.js&logoColor=ffffff) ![](https://img.shields.io/github/license/dharmawankenny/babel-plugin-proxy-import.svg) ![](https://img.shields.io/github/issues-raw/dharmawankenny/babel-plugin-proxy-import.svg?logo=github&logoColor=ffffff)
 
 
-Transform any member style `import { foo as bar } from 'module'` to default direct style `import bar from '{any}/foo'` with ease to enable tree shaking with any module.
+Transform any member style `import { foo as bar } from 'module'` to default direct style `import bar from '{any}/foo'` with ease to enable direct submodule importing in any module.
 
 ## Motivation
 
