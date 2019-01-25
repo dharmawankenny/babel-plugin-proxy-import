@@ -19,7 +19,7 @@ module.exports = function(babel) {
         var rules = state.opts.rules;
         var filename = state.file.opts.filename;
 
-        if (validate(sourceModule, rules)) {
+        if (validate(rules)) {
           var rule = findRuleForSourceModule(sourceModule, rules, filename);
 
           if (!!rule) {

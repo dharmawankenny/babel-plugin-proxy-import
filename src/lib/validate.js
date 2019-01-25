@@ -1,11 +1,7 @@
 var isValidPath = require('is-valid-path');
 var err = require('./throwError.js');
 
-module.exports = function(sourceModule, rules) {
-  if (sourceModule[sourceModule.length - 1] === '/') {
-    err('Invalid source for ' + sourceModule + ', unnecessary closing "/"');
-  }
-
+module.exports = function(rules) {
   if (!Array.isArray(rules)) {
     err('rules must be an array');
   }

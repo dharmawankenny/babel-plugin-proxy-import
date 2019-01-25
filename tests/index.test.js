@@ -19,17 +19,6 @@ pluginTester({
     'should leave full alias import as is': 'import * as some from "@module";',
 
     // test bad rules
-    'should check imported path does not have a closing /': {
-      pluginOptions: {
-        rules: [
-          {
-            module: '@module',
-          },
-        ],
-      },
-      code: 'import full from "@module/";',
-      error: true,
-    },
     'should check if rules is an array': {
       pluginOptions: {
         rules: {
