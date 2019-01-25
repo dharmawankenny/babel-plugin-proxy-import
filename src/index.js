@@ -9,7 +9,6 @@ module.exports = function(babel) {
 
   return {
     name: 'babel-plugin-proxy-import',
-    // eslint-disable-next-line
     pre(state) {
       this.visited = {};
     },
